@@ -1,10 +1,11 @@
 # Forest-Forecasting-and-Prediction
 
-# How to get started
-
+## How to get started
+This project has been tested and run on Python 2.7 (3.6 partially tested). This project was used with Tensorflow (v1.5.0) and Keras (v2.0.6)
 ### 1. Prepare a dataset
 
-Copy the dataset that the model is to be trained on into the Data directory. This can be done by ruunning the following command:
+A dataset must be split into three parts, which are a Training, Validation and Testing.
+Copy the desired dataset into the Data directory by running the following command:
 ```
 cp -r path/to/data/* Data/
 ```
@@ -17,6 +18,10 @@ The next step is to preprocess the data, which can be done by runnig the followi
 python process_data.py
 ```
 This will produce some files that store the image locations, which will be saved under the Data folder. These are used to create batches of images that will be used while training the model.
+
+If there is also environmental data, then the ENV_DATA variable in Settings.py will need to be set to true. Currently the program will presume that the data is stored in three separate CSV files, which will be for testing, training and validation.
+
+
 
 ### 2. Train the model 
 
@@ -38,17 +43,7 @@ A separate copy of this finetuned model will then be saved under the Models fold
 
 To test the trained model, run the command:
 ```
-python evaluate.py
+python evaluate.py -ft extrap_image
 ```
-The frame that the model starts making predictions from can be modified in the stttings.py file, by changing the EXTRAP variable (default is 5).
 The results of the evaluation will be saved under the Exports folder.
-
-### 4. Longer Extrapolation of Predictions
-
-To obtain predictions with a longer extrapolation, run the following command:
-
-Note: A finetuned model is required for this step. Information about how to finetune a model can be found in step 2.
-```
-# python predict.py test_images_directory -pf number_of_predictions 
-```
-The resulting predictions will be saved under the Exports folder.
+The extrap_image argument is the number of the image in the sequence where the extrapolation will begin. This argument is optional, and if not used the model will be evaluated on t+1 predictions.
